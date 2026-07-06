@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026 Test Budget — Spend by Language Program</title>
+<style>
+/* ===== LIGHT THEME (default) ===== */
+:root{
+ --bg1:#f6f8fc;--bg2:#eef2f9;--card:#ffffff;--card2:#eef2f8;--ink:#1b2436;--mut:#5f6f88;
+ --line:#e3e8f1;--accent:#2563eb;--green:#0a8f5b;--zebra:#f6f8fc;
+ --note-bg:#fff7e6;--note-line:#f0d38a;--note-ink:#8a6212;--pill-bg:#fbeccb;--pill-ink:#8a6212;
+ --detail:#f7f9fc;--ctab-line:#eceff4;--gahead:#e9f0ff;--gasub:#e8f7f0;--grand:#e6edfb;
+ --rowhover:rgba(37,99,235,.06);--dim:#b3bccb;--btn-bg:#ffffff;--shadow:0 1px 2px rgba(20,30,50,.06)}
+/* ===== DARK THEME ===== */
+[data-theme="dark"]{
+ --bg1:#0c1018;--bg2:#0f1420;--card:#1a2233;--card2:#222c42;--ink:#e8edf7;--mut:#93a1c0;
+ --line:#2c374f;--accent:#5b9dff;--green:#37d399;--zebra:#151d2c;
+ --note-bg:rgba(255,194,75,.08);--note-line:rgba(255,194,75,.3);--note-ink:#ffd98a;--pill-bg:rgba(255,194,75,.15);--pill-ink:#ffc24b;
+ --detail:#141b29;--ctab-line:#232d42;--gahead:#101725;--gasub:#16281f;--grand:#222c42;
+ --rowhover:rgba(91,157,255,.06);--dim:#5b6b86;--btn-bg:#1a2233;--shadow:none}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2) 40%);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:28px 32px 60px;min-height:100vh}
+h1{font-size:23px;margin:0 0 4px}
+.sub{color:var(--mut);font-size:13px;margin-bottom:20px}
+.themeBtn{position:fixed;top:20px;right:24px;z-index:10;background:var(--btn-bg);border:1px solid var(--line);color:var(--ink);padding:8px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow)}
+.themeBtn:hover{border-color:var(--accent)}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.tab{padding:10px 18px;cursor:pointer;color:var(--mut);font-weight:600;font-size:14px;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.panel{display:none}.panel.active{display:block}
+.cards{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 20px;min-width:150px;box-shadow:var(--shadow)}
+.kpi .n{font-size:25px;font-weight:700;letter-spacing:-.5px}
+.kpi .l{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.kpi.big .n{color:var(--accent)}
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+input[type=search],select{background:var(--card);border:1px solid var(--line);color:var(--ink);padding:9px 13px;border-radius:10px;font-size:14px}
+input[type=search]{width:250px}
+.note{background:var(--note-bg);border:1px solid var(--note-line);color:var(--note-ink);border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:18px}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:14px}
+th{background:var(--card2);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);white-space:nowrap}
+th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+th.sortable{cursor:pointer;user-select:none}
+tr.prog{cursor:pointer}
+tr.prog:hover{background:var(--rowhover)}
+.pl{font-weight:600}.meta{color:var(--mut);font-size:12.5px}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.pill.p{background:var(--pill-bg);color:var(--pill-ink)}
+.tot{font-weight:700;color:var(--green)}
+.win{color:var(--mut);font-size:12.5px;white-space:nowrap}
+.detail{display:none;background:var(--detail)}.detail.open{display:table-row}
+.dinner{padding:6px 14px 14px 40px}
+.ctab{width:100%;border-collapse:collapse;margin-top:4px;box-shadow:none}
+.ctab td,.ctab th{border-bottom:1px solid var(--ctab-line);padding:6px 10px;font-size:13px;background:transparent}
+.caret{display:inline-block;transition:transform .15s;color:var(--mut);margin-right:6px}
+tr.prog.open .caret{transform:rotate(90deg)}
+tr.ga td{background:var(--gahead);color:var(--accent);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.6px;border-top:1px solid var(--line)}
+tr.gasub td{background:var(--gasub);font-weight:600}
+tr.grand td{background:var(--grand);font-weight:800;border-top:2px solid var(--accent)}
+.foot{color:var(--mut);font-size:12px;margin-top:16px}
+details.pend{margin-top:24px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2px 16px;box-shadow:var(--shadow)}
+details.pend summary{cursor:pointer;padding:13px 0;font-weight:600}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:5px 18px;padding:6px 0 16px;color:var(--mut);font-size:13px}
+.matrix-wrap{overflow-x:auto;border-radius:14px}
+.matrix td:first-child,.matrix th:first-child{position:sticky;left:0;background:var(--card);z-index:1;min-width:230px}
+.matrix th:first-child{background:var(--card2)}
+.matrix tr.ga td:first-child{background:var(--gahead)}
+.matrix tr.gasub td:first-child{background:var(--gasub)}
+.matrix tr.grand td:first-child{background:var(--grand)}
+.z0{background:var(--card)}.z1{background:var(--zebra)}
+.matrix tr.z1 td:first-child{background:var(--zebra)}
+.dim{color:var(--dim)}
+</style></head><body>
+<button id="themeBtn" class="themeBtn" title="Toggle light/dark"></button>
+<h1>2026 Test Budget — Spend by Language Program</h1>
+<div class="sub" id="sub"></div>
+<div class="note" id="note"></div>
+<div class="tabs">
+ <div class="tab active" data-p="ov">Overview</div>
+ <div class="tab" data-p="bl">By Lang-Program</div>
+ <div class="tab" data-p="bm">By Month</div>
+</div>
+
+<div class="panel active" id="ov">
+ <div class="cards" id="cards"></div>
+ <div class="bar"><input type="search" id="ovq" placeholder="Filter by program, language, country, GA…">
+  <span class="meta">Click a row for campaign & monthly breakdown</span></div>
+ <table id="ovt"><thead><tr>
+  <th class="sortable" data-k="program">Program</th><th class="sortable" data-k="lang">Language</th>
+  <th class="sortable" data-k="gac">Country</th><th class="sortable" data-k="ga">GA</th>
+  <th class="sortable" data-k="window">Test Window</th>
+  <th class="sortable num" data-k="ncamp">Campaigns</th><th class="sortable num" data-k="total">Total Spend</th>
+ </tr></thead><tbody id="ovb"></tbody></table>
+ <div class="foot" id="ovf"></div>
+</div>
+
+<div class="panel" id="bl">
+ <div class="bar">
+  <select id="blga"></select>
+  <input type="search" id="blq" placeholder="Filter by program, language, country…">
+  <span class="meta">Grouped by GA · click a row for breakdown</span></div>
+ <table id="blt"><thead><tr>
+  <th>Program</th><th>Language</th><th>Country</th><th>Test Window</th>
+  <th class="num">Campaigns</th><th class="num">Total Spend</th>
+ </tr></thead><tbody id="blb"></tbody></table>
+ <div class="foot" id="blf"></div>
+</div>
+
+<div class="panel" id="bm">
+ <div class="bar"><select id="bmga"></select>
+  <span class="meta">Spend within each test's start–end window · $ only</span></div>
+ <div class="matrix-wrap"><table class="matrix" id="bmt"></table></div>
+</div>
+
+<details class="pend" id="penddet"><summary id="psum"></summary><div class="pgrid" id="pg"></div></details>
+
+<script>
+(function(){
+ var root=document.documentElement,btn=document.getElementById('themeBtn');
+ var saved=localStorage.getItem('tb-theme');
+ var theme=saved||'light';  // default light; toggle remembers your choice
+ function apply(t){root.setAttribute('data-theme',t);btn.textContent=(t==='dark')?'☀︎ Light':'☾ Dark';}
+ apply(theme);
+ btn.onclick=function(){theme=(root.getAttribute('data-theme')==='dark')?'light':'dark';localStorage.setItem('tb-theme',theme);apply(theme);};
+})();
+const D={"generated": "2026-07-06", "last_data": "2026-07-06", "source": "web-reach-dmg.Web_Reach_2025.WebReachKPILeads2025 (live BigQuery)", "programs": [{"ga": "Eurasia", "program": "Extra Time", "lang": "English", "gac": "UK/Netherlands", "start": "2026-04-21", "end": "2026-06-07", "ncamp": 3, "total": 4697.39, "campaigns": [{"name": "Extra Time - English - Eurasia - UK - Google - 01", "spend": 3065.16}, {"name": "Extra Time - English - Eurasia - UK - Meta - 02", "spend": 568.67}, {"name": "Extra Time - English - Eurasia - Netherlands - Google - 01", "spend": 1063.56}], "monthly": {"2026-04": 961.56, "2026-05": 2287.12, "2026-06": 1448.71}, "partial": false}, {"ga": "Asia Pacific", "program": "Perfectly Flawed", "lang": "Tagalog", "gac": "Philippines", "start": "2026-04-21", "end": "2026-05-14", "ncamp": 2, "total": 2145.33, "campaigns": [{"name": "Perfectly Flawed - English - Philippines - Meta - 01", "spend": 292.37}, {"name": "Perfectly Flawed - English - Philippines - Google - 02", "spend": 1852.96}], "monthly": {"2026-04": 292.37, "2026-05": 1852.96}, "partial": false}, {"ga": "Asia Pacific", "program": "Hotpot", "lang": "Chinese Simplified", "gac": "Northern Asia", "start": "2026-02-12", "end": "2026-03-09", "ncamp": 2, "total": 1928.34, "campaigns": [{"name": "Hot Pot - Chinese - Asia Pacific - Google - PMax - CN - Conversions - 01", "spend": 1685.64}, {"name": "Hot Pot - Chinese - Asia Pacific - Google - PMax - CN - Conversions - 02", "spend": 242.7}], "monthly": {"2026-02": 1448.37, "2026-03": 479.97}, "partial": false}, {"ga": "Asia Pacific", "program": "iBelieve", "lang": "Thai", "gac": "Thailand", "start": "2026-03-02", "end": "2026-05-13", "ncamp": 2, "total": 1716.03, "campaigns": [{"name": "iBelieve - Thai - Asia Pacific - Meta - Conversions - 01", "spend": 1422.16}, {"name": "iBelieve - Thai - Asia Pacific - Google - Conversions - 02", "spend": 293.86}], "monthly": {"2026-03": 1422.16, "2026-04": 0.0, "2026-05": 293.86}, "partial": false}, {"ga": "Africa", "program": "Eternal Prize Press On", "lang": "English", "gac": "Africa", "start": "2026-03-31", "end": "2026-06-07", "ncamp": 1, "total": 1545.24, "campaigns": [{"name": "Press On - English - Africa - Meta - Press On - Conversions - 01", "spend": 1545.24}], "monthly": {"2026-03": 81.71, "2026-04": 1012.81, "2026-05": 450.72, "2026-06": 0.0}, "partial": false}, {"ga": "Asia Pacific", "program": "iBelieve", "lang": "Malay", "gac": "Malaysia", "start": "2026-05-06", "end": "2026-06-03", "ncamp": 2, "total": 1466.54, "campaigns": [{"name": "iBelieve - English - Malaysia - Meta - Conversions - 01", "spend": 586.32}, {"name": "iBelieve - English - Malaysia - Google - Demand Gen - Conversions - 02", "spend": 880.22}], "monthly": {"2026-05": 1319.48, "2026-06": 147.06}, "partial": false}, {"ga": "Eurasia", "program": "Extra Time", "lang": "German", "gac": "Germany", "start": "2026-04-21", "end": "2026-06-07", "ncamp": 1, "total": 1423.37, "campaigns": [{"name": "Extra Time - German - Eurasia - Germany - Google - 01", "spend": 1423.37}], "monthly": {"2026-04": 507.09, "2026-05": 0.0, "2026-06": 916.28}, "partial": false}, {"ga": "Africa", "program": "Eternal Prize Press On", "lang": "French", "gac": "Africa", "start": "2026-03-31", "end": "2026-06-07", "ncamp": 1, "total": 1278.98, "campaigns": [{"name": "Press On - French - Africa - Meta - Press On - Conversions - 01", "spend": 1278.98}], "monthly": {"2026-03": 78.51, "2026-04": 919.25, "2026-05": 281.22, "2026-06": 0.0}, "partial": false}, {"ga": "Eurasia", "program": "Gleam of Hope", "lang": "Russian", "gac": "CAS", "start": "2026-02-02", "end": "2026-02-13", "ncamp": 1, "total": 1266.35, "campaigns": [{"name": "Gleam of Hope- Russian CAS- Eurasia- Meta- Love- Conversions- 01", "spend": 1266.35}], "monthly": {"2026-02": 1266.35}, "partial": false}, {"ga": "Eurasia", "program": "Extra Time", "lang": "French", "gac": "France", "start": "2026-04-21", "end": "2026-06-07", "ncamp": 1, "total": 1218.0, "campaigns": [{"name": "Extra Time - French - Eurasia - France - Google - 01", "spend": 1218.0}], "monthly": {"2026-04": 479.87, "2026-05": 0.0, "2026-06": 738.13}, "partial": false}, {"ga": "Southern Asia", "program": "SYSF", "lang": "Urdu", "gac": "Pakistan", "start": "2026-02-18", "end": "2026-03-02", "ncamp": 1, "total": 1102.95, "campaigns": [{"name": "SYSF - Urdu - Southern Asia - Google - Pakistan - Conversions - 01", "spend": 1102.95}], "monthly": {"2026-02": 932.86, "2026-03": 170.09}, "partial": false}, {"ga": "Eurasia", "program": "Gleam of Hope", "lang": "Ukrainian", "gac": "Ukraine", "start": "2026-02-02", "end": "2026-02-13", "ncamp": 1, "total": 1097.83, "campaigns": [{"name": "Gleam of Hope- Ukraine- Eurasia- Meta- Love- Conversions- 01", "spend": 1097.83}], "monthly": {"2026-02": 1097.83}, "partial": false}, {"ga": "Eurasia", "program": "Extra Time", "lang": "Italian", "gac": "Italy", "start": "2026-04-21", "end": "2026-06-07", "ncamp": 1, "total": 1097.59, "campaigns": [{"name": "Extra Time - Italian - Eurasia - Italy - Google - 01", "spend": 1097.59}], "monthly": {"2026-04": 428.73, "2026-05": 0.0, "2026-06": 668.86}, "partial": false}, {"ga": "Asia Pacific", "program": "OandDan", "lang": "Chinese Trad (TW)", "gac": "Taiwan", "start": "2026-05-14", "end": "2026-05-23", "ncamp": 1, "total": 847.82, "campaigns": [{"name": "OandDan - Chinese - Asia Pacific - Meta - Taiwan - Conversions - 01", "spend": 847.82}], "monthly": {"2026-05": 847.82}, "partial": false}, {"ga": "Latin America", "program": "Avanza", "lang": "Spanish", "gac": "LA", "start": "2026-05-13", "end": "2026-05-20", "ncamp": 2, "total": 717.43, "campaigns": [{"name": "Avanza - Spanish - Latin America - Google - Conversions - 04", "spend": 0.0}, {"name": "Avanza - Spanish - Latin America - Meta - Conversions - 04", "spend": 717.43}], "monthly": {"2026-05": 717.43}, "partial": false}, {"ga": "Southern Asia", "program": "DKD", "lang": "Hindi", "gac": "India", "start": "2026-05-18", "end": "2026-05-26", "ncamp": 1, "total": 560.29, "campaigns": [{"name": "DKD - Hindi - Southern Asia - Meta - India - 01", "spend": 560.29}], "monthly": {"2026-05": 560.29}, "partial": false}, {"ga": "Asia Pacific", "program": "Hotpot", "lang": "Khmer", "gac": "Cambodia", "start": "2026-04-09", "end": "2026-04-20", "ncamp": 1, "total": 331.74, "campaigns": [{"name": "Korko (Hot Pot) - Khmer - Asia Pacific - Meta - Conversions - 01", "spend": 331.74}], "monthly": {"2026-04": 331.74}, "partial": false}], "pending": [{"ga": "North America", "program": "??", "lang": "English", "gac": "NA"}, {"ga": "Eurasia", "program": "??", "lang": "Turkish", "gac": "Turkey"}, {"ga": "Eurasia", "program": "??", "lang": "Turkish", "gac": "Turkey"}, {"ga": "Asia Pacific", "program": "WIIT", "lang": "Vietnamese", "gac": "Vietnam"}, {"ga": "Eurasia", "program": "iBelieve", "lang": "Ukrainian", "gac": "Ukraine"}, {"ga": "Asia Pacific", "program": "WIIT", "lang": "Chinese Trad (TW)", "gac": "Taiwan"}, {"ga": "Eurasia", "program": "??", "lang": "??", "gac": "Mongolia"}, {"ga": "Asia Pacific", "program": "Forward Thinkers", "lang": "Tagalog", "gac": "Philippines"}, {"ga": "Latin America", "program": "Gleam of Hope", "lang": "Spanish", "gac": "Mexico"}, {"ga": "Southern Asia", "program": "Noo-e-Jahan", "lang": "Urdu", "gac": "Pakistan"}, {"ga": "Asia Pacific", "program": "Hot Pot", "lang": "Chinese Simplified", "gac": "NAS"}, {"ga": "Africa", "program": "WIIT", "lang": "English", "gac": "Africa"}, {"ga": "Asia Pacific", "program": "Breakthrough", "lang": "Chinese Simplified", "gac": "NAS"}, {"ga": "Asia Pacific", "program": "Honest Space", "lang": "Indonesian", "gac": "Kuncup"}, {"ga": "Eurasia", "program": "??", "lang": "??", "gac": "Iran"}, {"ga": "Eurasia", "program": "??", "lang": "??", "gac": "Iran"}, {"ga": "Latin America", "program": "Avanza", "lang": "Spanish", "gac": "Mexico"}, {"ga": "Asia Pacific", "program": "??", "lang": "??", "gac": "South Korea"}, {"ga": "Asia Pacific", "program": "??", "lang": "Japanese", "gac": "Japan"}, {"ga": "Asia Pacific", "program": "iBelieve", "lang": "Vietnamese", "gac": "Vietnam"}, {"ga": "Southern Asia", "program": "??", "lang": "??", "gac": "India"}, {"ga": "Southern Asia", "program": "WIIT", "lang": "Odiya", "gac": "India"}, {"ga": "Southern Asia", "program": "??", "lang": "Bangla", "gac": "Bangladesh"}, {"ga": "Southern Asia", "program": "WIIT", "lang": "English", "gac": "Nepal"}, {"ga": "Eurasia", "program": "??", "lang": "??", "gac": "Algeria"}, {"ga": "Asia Pacific", "program": "World Without Sickness", "lang": "Khmer", "gac": "Cambodia"}, {"ga": "Eurasia", "program": "Extra Time", "lang": "English/French/German/Italian", "gac": "Eurasia"}, {"ga": "Latin America", "program": "Extra Time", "lang": "Spanish", "gac": "Spain"}, {"ga": "Latin America", "program": "Extra Time", "lang": "Spanish", "gac": "LA"}, {"ga": "Asia Pacific", "program": "Hotpot", "lang": "Khmer", "gac": "Cambodia"}, {"ga": "Asia Pacific", "program": "UFS", "lang": "Lao", "gac": "Laos"}, {"ga": "Asia Pacific", "program": "UFS", "lang": "Lao", "gac": "Laos"}, {"ga": "Eurasia", "program": "WIIT", "lang": "Uzbek", "gac": "Uzbekistan"}, {"ga": "Eurasia", "program": "iBelieve", "lang": "Russian", "gac": "CAS"}, {"ga": "Asia Pacific", "program": "Guiding Light", "lang": "Chinese Simplified", "gac": "NAS"}, {"ga": "Latin America", "program": "Gleam of Hope", "lang": "Spanish", "gac": "LA"}, {"ga": "Asia Pacific", "program": "??", "lang": "Vietnamese", "gac": "Vietnam"}, {"ga": "Asia Pacific", "program": "Let's Talk", "lang": "Lao", "gac": "Laos"}, {"ga": "Asia Pacific", "program": "??", "lang": "Thai", "gac": "Thailand"}, {"ga": "Asia Pacific", "program": "??", "lang": "Vietnamese", "gac": "Vietnam"}, {"ga": "Southern Asia", "program": "Umeed", "lang": "Urdu", "gac": "Pakistan"}, {"ga": "Southern Asia", "program": "WIIT", "lang": "Nepali", "gac": "Nepal"}, {"ga": "Southern Asia", "program": "Sach Ka Safar", "lang": "Urdu", "gac": "Pakistan"}, {"ga": "Asia Pacific", "program": "iBelieve", "lang": "Chinese Simplified", "gac": "NAS"}, {"ga": "Africa", "program": "Press On", "lang": "French", "gac": "Sahel"}, {"ga": "Asia Pacific", "program": "Extra Time", "lang": "Vietnamese", "gac": "Vietnam"}, {"ga": "Africa", "program": "WIIT", "lang": "Somali", "gac": "Somalia"}, {"ga": "Asia Pacific", "program": "??", "lang": "Chinese Trad (TW)", "gac": "Taiwan"}, {"ga": "Southern Asia", "program": "??", "lang": "??", "gac": "Pakistan"}, {"ga": "Africa", "program": "WIIT", "lang": "Swahili", "gac": "Tanzania"}, {"ga": "Latin America", "program": "??", "lang": "Spanish", "gac": "Mexico"}, {"ga": "Asia Pacific", "program": "??", "lang": "Japanese", "gac": "Japan"}, {"ga": "Asia Pacific", "program": "WIIT", "lang": "Lao", "gac": "Laos"}, {"ga": "Southern Asia", "program": "WIIT", "lang": "Bangla", "gac": "Bangladesh"}, {"ga": "Africa", "program": "TKS", "lang": "English", "gac": "Africa"}, {"ga": "Africa", "program": "WIIT", "lang": "French", "gac": "Africa"}, {"ga": "Asia Pacific", "program": "WIIT", "lang": "Vietnamese", "gac": "Vietnam"}], "months": ["2026-02", "2026-03", "2026-04", "2026-05", "2026-06"], "grand_total": 24441.22, "n_prog": 17, "n_camp": 24, "n_pending": 57};
+const fmt=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmt0=n=>n?('$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})):'<span class="dim">–</span>';
+const MON={'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'};
+const mlab=m=>MON[m.slice(5)]+" '"+m.slice(2,4);
+const GAS=[...new Set(D.programs.map(p=>p.ga))].sort();
+
+document.getElementById('sub').textContent=`Generated ${D.generated} · Source: DPD “2026 Project Requests” (Type = Test) × ${D.source} · spend current through ${D.last_data}`;
+document.getElementById('note').innerHTML=`⚠ Live spend is current through <b>${D.last_data}</b>. Tests whose window ends after that are marked <span class="pill p">partial</span>. All spend is constrained to each test's start–end window. Reach is not summed (spend only).`;
+
+// ---------- tabs ----------
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+ t.classList.add('active');document.getElementById(t.dataset.p).classList.add('active');});
+
+// ---------- OVERVIEW ----------
+document.getElementById('cards').innerHTML=`
+ <div class="kpi big"><div class="n">${fmt(D.grand_total)}</div><div class="l">Total test spend</div></div>
+ <div class="kpi"><div class="n">${D.n_prog}</div><div class="l">Launched programs</div></div>
+ <div class="kpi"><div class="n">${D.n_camp}</div><div class="l">Campaigns</div></div>
+ <div class="kpi"><div class="n">${D.n_pending}</div><div class="l">Not yet launched</div></div>`;
+let ovK='total',ovDir=-1;
+function drawOv(){
+ const q=ovq.value.toLowerCase();
+ let r=D.programs.filter(p=>[p.program,p.lang,p.gac,p.ga].join(' ').toLowerCase().includes(q));
+ r=[...r].sort((a,b)=>{let x=a[ovK==='window'?'start':ovK],y=b[ovK==='window'?'start':ovK];
+   if(typeof x==='string'){x=x.toLowerCase();y=y.toLowerCase();}return x<y?-ovDir:x>y?ovDir:0;});
+ const tb=ovb;tb.innerHTML='';
+ r.forEach(p=>{
+  const tr=document.createElement('tr');tr.className='prog';
+  tr.innerHTML=`<td><span class="caret">▶</span><span class="pl">${p.program}</span></td>
+   <td>${p.lang}</td><td>${p.gac}</td><td class="meta">${p.ga}</td>
+   <td class="win">${p.start} → ${p.end} ${p.partial?'<span class="pill p">partial</span>':''}</td>
+   <td class="num">${p.ncamp}</td><td class="num tot">${fmt(p.total)}</td>`;
+  const dt=document.createElement('tr');dt.className='detail';
+  const camps=p.campaigns.map(c=>`<tr><td>${c.name}</td><td class="num">${fmt(c.spend)}</td></tr>`).join('');
+  const mos=Object.keys(p.monthly).sort().map(m=>`<tr><td>${mlab(m)}</td><td class="num">${fmt(p.monthly[m])}</td></tr>`).join('');
+  dt.innerHTML=`<td colspan="7"><div class="dinner">
+   <table class="ctab"><thead><tr><th>Campaign (spend in window)</th><th class="num">Spend</th></tr></thead><tbody>${camps}
+   <tr><td class="tot">Total</td><td class="num tot">${fmt(p.total)}</td></tr></tbody></table>
+   <table class="ctab" style="margin-top:8px"><thead><tr><th>Monthly split (within window)</th><th class="num">Spend</th></tr></thead><tbody>${mos}</tbody></table></div></td>`;
+  tr.onclick=()=>{tr.classList.toggle('open');dt.classList.toggle('open');};
+  tb.appendChild(tr);tb.appendChild(dt);});
+ ovf.textContent=`Showing ${r.length} of ${D.n_prog} · filtered total ${fmt(r.reduce((s,p)=>s+p.total,0))}`;
+}
+document.querySelectorAll('#ovt th.sortable').forEach(th=>th.onclick=()=>{const k=th.dataset.k;
+ if(ovK===k)ovDir*=-1;else{ovK=k;ovDir=['program','lang','gac','ga','window'].includes(k)?1:-1;}drawOv();});
+ovq.oninput=drawOv;
+
+// ---------- BY LANG-PROGRAM (grouped by GA) ----------
+function gaSelect(el){el.innerHTML='<option value="">All GAs</option>'+GAS.map(g=>`<option>${g}</option>`).join('');}
+gaSelect(blga);gaSelect(bmga);
+function drawBL(){
+ const q=blq.value.toLowerCase(),fg=blga.value;
+ const tb=blb;tb.innerHTML='';let shown=0,gt=0;
+ GAS.forEach(g=>{
+  if(fg&&g!==fg)return;
+  let items=D.programs.filter(p=>p.ga===g&&[p.program,p.lang,p.gac].join(' ').toLowerCase().includes(q));
+  if(!items.length)return;
+  items.sort((a,b)=>b.total-a.total);
+  const sub=items.reduce((s,p)=>s+p.total,0);gt+=sub;
+  const gr=document.createElement('tr');gr.className='ga';
+  gr.innerHTML=`<td colspan="5">${g}</td><td class="num">${fmt(sub)}</td>`;tb.appendChild(gr);
+  items.forEach(p=>{shown++;
+   const tr=document.createElement('tr');tr.className='prog';
+   tr.innerHTML=`<td><span class="caret">▶</span><span class="pl">${p.program}</span></td>
+    <td>${p.lang}</td><td>${p.gac}</td>
+    <td class="win">${p.start} → ${p.end} ${p.partial?'<span class="pill p">partial</span>':''}</td>
+    <td class="num">${p.ncamp}</td><td class="num tot">${fmt(p.total)}</td>`;
+   const dt=document.createElement('tr');dt.className='detail';
+   const camps=p.campaigns.map(c=>`<tr><td>${c.name}</td><td class="num">${fmt(c.spend)}</td></tr>`).join('');
+   dt.innerHTML=`<td colspan="6"><div class="dinner"><table class="ctab"><thead><tr><th>Campaign (spend in window)</th><th class="num">Spend</th></tr></thead><tbody>${camps}<tr><td class="tot">Total</td><td class="num tot">${fmt(p.total)}</td></tr></tbody></table></div></td>`;
+   tr.onclick=()=>{tr.classList.toggle('open');dt.classList.toggle('open');};
+   tb.appendChild(tr);tb.appendChild(dt);});
+ });
+ blf.textContent=`Showing ${shown} program(s) · total ${fmt(gt)}`;
+}
+blq.oninput=drawBL;blga.onchange=drawBL;
+
+// ---------- BY MONTH (matrix) ----------
+function drawBM(){
+ const fg=bmga.value,M=D.months;
+ let h='<thead><tr><th>Language-Program</th>'+M.map(m=>`<th class="num">${mlab(m)}</th>`).join('')+'<th class="num">Total</th></tr></thead><tbody>';
+ const colTot={};M.forEach(m=>colTot[m]=0);let grand=0;
+ GAS.forEach(g=>{
+  if(fg&&g!==fg)return;
+  const items=D.programs.filter(p=>p.ga===g).sort((a,b)=>b.total-a.total);
+  if(!items.length)return;
+  const gaTot={};M.forEach(m=>gaTot[m]=0);let gaSum=0;
+  let rows='';
+  items.forEach((p,i)=>{
+   let cells='';M.forEach(m=>{const v=p.monthly[m]||0;gaTot[m]+=v;colTot[m]+=v;cells+=`<td class="num">${fmt0(v)}</td>`;});
+   gaSum+=p.total;grand+=p.total;
+   rows+=`<tr class="${i%2?'z1':'z0'}"><td>${p.program} — ${p.lang} <span class="meta">(${p.gac})</span></td>${cells}<td class="num tot">${fmt(p.total)}</td></tr>`;
+  });
+  h+=`<tr class="ga"><td>${g}</td>${M.map(m=>`<td class="num">${fmt0(gaTot[m])}</td>`).join('')}<td class="num">${fmt(gaSum)}</td></tr>`;
+  h+=rows;
+ });
+ h+=`<tr class="grand"><td>TOTAL SPEND BY MONTH</td>${M.map(m=>`<td class="num">${fmt(colTot[m])}</td>`).join('')}<td class="num">${fmt(grand)}</td></tr>`;
+ h+='</tbody>';
+ bmt.innerHTML=h;
+}
+bmga.onchange=drawBM;
+
+// ---------- PENDING dropdown ----------
+psum.textContent=`Not yet launched — ${D.pending.length} test programs with no campaigns/dates (no spend to report)`;
+const byGA={};D.pending.forEach(p=>{(byGA[p.ga]=byGA[p.ga]||[]).push(p);});
+pg.innerHTML=Object.keys(byGA).sort().map(g=>`<div><b style="color:var(--accent)">${g}</b><br>`+
+  byGA[g].map(p=>`• ${p.program} — ${p.lang}${p.gac?' — '+p.gac:''}`).join('<br>')+`</div>`).join('');
+
+drawOv();drawBL();drawBM();
+</script></body></html>
