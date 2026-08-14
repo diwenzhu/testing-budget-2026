@@ -1,200 +1,151 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Testing Spend & Forecast 2026</title>
-<style>
-:root{--bg1:#f7f8fb;--bg2:#eef1f7;--card:#fff;--card2:#eef2f8;--ink:#1b2436;--mut:#5f6f88;
---line:#e3e8f1;--accent:#2563eb;--green:#0a8f5b;--amber:#b7791f;--purple:#7c3aed;
---zebra:#f7f9fc;--shadow:0 1px 2px rgba(20,30,50,.06)}
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Testing Results &amp; Cost of a Win 2026</title><style>
+:root{--bg1:#f7f8fb;--bg2:#eef1f7;--card:#fff;--card2:#eff3f9;--ink:#1b2436;--mut:#5f6f88;
+--line:#e3e8f1;--accent:#2563eb;--green:#0a8f5b;--amber:#b7791f;--zebra:#f7f9fc;
+--shadow:0 1px 2px rgba(20,30,50,.06)}
 :root[data-theme="dark"]{--bg1:#0c1018;--bg2:#0f1420;--card:#1a2233;--card2:#222c42;--ink:#e8edf7;
---mut:#93a1c0;--line:#2c374f;--accent:#5b9dff;--green:#37d399;--amber:#ffc24b;--purple:#c79bf0;
---zebra:#151d2c;--shadow:none}
+--mut:#93a1c0;--line:#2c374f;--accent:#5b9dff;--green:#37d399;--amber:#ffc24b;--zebra:#151d2c;--shadow:none}
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2) 40%);color:var(--ink);
 font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:30px 32px 70px;min-height:100vh}
-.wrap{max-width:1120px;margin:0 auto}
-h1{font-size:26px;margin:0 0 4px;letter-spacing:-.4px}
-h2{font-size:19px;margin:0}
-h3{font-size:14px;text-transform:uppercase;letter-spacing:.7px;color:var(--mut);
-margin:30px 0 10px;font-weight:700}
-.sub{color:var(--mut);font-size:13.5px;margin-bottom:20px}
+.wrap{max-width:1080px;margin:0 auto}
+h1{font-size:26px;margin:0 0 4px;letter-spacing:-.4px;text-wrap:balance}
+h2{font-size:14px;text-transform:uppercase;letter-spacing:.7px;color:var(--mut);margin:34px 0 12px;font-weight:700}
+h2 .mut{text-transform:none;letter-spacing:0;font-weight:500}
+.sub{color:var(--mut);font-size:13.5px;margin-bottom:22px}
+a{color:var(--accent)}
 .themeBtn{position:fixed;top:18px;right:22px;z-index:9;background:var(--card);border:1px solid var(--line);
 color:var(--ink);padding:8px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:var(--shadow)}
-.note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
-border-radius:8px;padding:12px 16px;font-size:13.5px;margin-bottom:26px;box-shadow:var(--shadow)}
-.ver{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px 28px;
-margin-bottom:26px;box-shadow:var(--shadow)}
-.vhead{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}
-.badge{background:var(--accent);color:#fff;width:34px;height:34px;border-radius:9px;display:flex;
-align-items:center;justify-content:center;font-weight:800;font-size:16px;flex:none}
-.vsub{color:var(--mut);font-size:13.5px;margin:2px 0 0}
 .cards{display:flex;gap:12px;flex-wrap:wrap}
-.kpi{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;min-width:132px;flex:1}
-.kpi .n{font-size:23px;font-weight:750;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
-.kpi .l{color:var(--mut);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
-.kpi.big .n{color:var(--accent);font-size:27px}
-.tw{overflow-x:auto;border-radius:10px;border:1px solid var(--line)}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 19px;min-width:150px;flex:1;box-shadow:var(--shadow)}
+.kpi .n{font-size:25px;font-weight:750;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.kpi .n .of{font-size:15px;color:var(--mut);font-weight:600}
+.kpi .l{color:var(--mut);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.kpi.big .n{color:var(--accent);font-size:28px}
+.kpi.hero{background:var(--accent);border-color:var(--accent)}
+.kpi.hero .n,.kpi.hero .l{color:#fff}
+.kpi.hero .l{opacity:.85}
+.chart{display:flex;gap:26px;align-items:center;flex-wrap:wrap;background:var(--card);
+border:1px solid var(--line);border-radius:15px;padding:20px 24px;box-shadow:var(--shadow)}
+.chart svg{width:250px;height:250px;flex:none}
+.cn{font-size:40px;font-weight:750;text-anchor:middle;fill:var(--ink)}
+.cl{font-size:12px;text-anchor:middle;fill:var(--mut);text-transform:uppercase;letter-spacing:.7px}
+.legend{list-style:none;margin:0;padding:0;flex:1;min-width:330px}
+.legend li{display:grid;grid-template-columns:14px 1fr 34px 56px 74px 1.5fr;gap:10px;align-items:center;
+padding:7px 2px;border-bottom:1px solid var(--line);font-size:13.5px}
+.legend li:last-child{border-bottom:0}
+.legend li.hd{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);font-weight:700}
+.sw{width:13px;height:13px;border-radius:3px}
+.ln{font-weight:650}
+.lc,.lp,.ls{text-align:right;font-variant-numeric:tabular-nums}
+.lp,.ls{color:var(--mut)}
+.lm{color:var(--mut);font-size:12.5px}
+.scen{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.sc{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px 19px;box-shadow:var(--shadow)}
+.sct{font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;
+display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.scn{font-size:30px;font-weight:750;letter-spacing:-.6px;margin:6px 0 6px;font-variant-numeric:tabular-nums}
+.sc p{font-size:13px;color:var(--mut);margin:0}
+.tag{font-size:10.5px;padding:2px 8px;border-radius:20px;font-weight:700}
+.tag.ok{background:rgba(10,143,91,.14);color:var(--green)}
+.tag.hard{background:rgba(183,121,31,.16);color:var(--amber)}
+.tw{overflow-x:auto;border-radius:11px;border:1px solid var(--line)}
 table{width:100%;border-collapse:collapse;background:var(--card)}
-th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line);font-size:13.5px;white-space:nowrap}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:13.5px;white-space:nowrap}
 th{background:var(--card2);font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut)}
 tbody tr:last-child td{border-bottom:0}
-tbody tr:nth-child(even){background:var(--zebra)}
 .num{text-align:right;font-variant-numeric:tabular-nums}
 td.k{font-weight:650}
 td.land{font-weight:750;color:var(--green)}
-.warn{color:var(--amber);font-size:11px;font-weight:700;margin-left:5px}
-.fine{color:var(--mut);font-size:12.5px;margin:9px 2px 0}
-.scen{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px}
-.sc{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
-.sct{font-size:12.5px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;
-display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.scn{font-size:29px;font-weight:750;letter-spacing:-.6px;margin:6px 0 4px;font-variant-numeric:tabular-nums}
-.sc p{font-size:13px;color:var(--mut);margin:0 0 10px}
-.scend{border-top:1px dashed var(--line);padding-top:9px;font-size:13.5px}
-.tag{font-size:10.5px;padding:2px 8px;border-radius:20px;font-weight:700;letter-spacing:.3px}
-.tag.ok{background:rgba(10,143,91,.14);color:var(--green)}
-.tag.hard{background:rgba(183,121,31,.16);color:var(--amber)}
-.cav{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 24px;box-shadow:var(--shadow)}
+.fine{color:var(--mut);font-size:12.5px;margin:10px 2px 0}
+.cav{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 24px;box-shadow:var(--shadow)}
+.cav ul{margin:0;padding-left:20px}
 .cav li{margin-bottom:9px;font-size:14px}
-.cav b{color:var(--ink)}
-a{color:var(--accent)}
-</style>
-</head><body><button id="themeBtn" class="themeBtn"></button>
-<div class="wrap">
-<h1>Testing Spend &amp; Forecast — 2026</h1>
-<div class="sub">Live BigQuery spend through <b>2026-08-13</b> · every project measured over a
-<b>14-day window from launch</b> · sheet Budget Tracker figures excluded ·
-<a href="./">← back to the budget dashboard</a></div>
+@media (max-width:640px){.legend li{grid-template-columns:14px 1fr 30px 52px;}.lm,.ls{display:none}}
+</style></head><body><button id="themeBtn" class="themeBtn"></button><div class="wrap"><h1>Testing Results &amp; Cost of a Win — 2026</h1>
+<div class="sub">40 approved tests (Type = Test, Approval = Approved) · live BigQuery spend
+through <b>2026-08-14</b> · each test measured over a <b>14-day window from launch</b> ·
+<a href="./">← budget dashboard</a></div>
 
-<div class="note"><b>The two-week rule.</b> A project counts as a test for 14 days after it launches.
-A <i>Testing End</i> date from the sheet is used only when it falls inside that window (a test that
-ended early); later end dates are capped — so Press On, launched 3/31, is measured 3/31–4/13 rather
-than through 6/7. This is what makes these figures lower than earlier versions.</div>
-
-
-<section class="ver">
-  <div class="vhead"><span class="badge">A</span><div>
-    <h2>Type = 'Test' only</h2><p class="vsub">Strictly the rows classified as Test in 2026 Project Requests.</p></div></div>
-  <div class="cards">
-    <div class="kpi big"><div class="n">$21,757</div><div class="l">Spent YTD</div></div>
-    <div class="kpi"><div class="n">26</div><div class="l">Tests launched</div></div>
-    <div class="kpi"><div class="n">$837</div><div class="l">Avg per test</div></div>
-    <div class="kpi"><div class="n">48</div><div class="l">Still in the plan</div></div>
-  </div>
-  <h3>Unit economics — what a test costs</h3>
-  <div class="tw"><table>
-    <thead><tr><th>What's being tested</th><th class="num">Run / planned</th><th class="num">Spend</th>
-    <th class="num">Avg / round</th><th class="num">Median</th><th class="num">Rounds</th>
-    <th class="num">Cost to land one</th></tr></thead>
-    <tbody><tr><td class="k">New program</td><td class="num">12 / 34</td>
-<td class="num">$10,143.98</td><td class="num">$845.33</td>
-<td class="num">$923.83</td><td class="num">1.12</td>
-<td class="num land">$951.00</td></tr><tr><td class="k">Localization</td><td class="num">13 / 27</td>
-<td class="num">$10,954.75</td><td class="num">$842.67</td>
-<td class="num">$912.53</td><td class="num">1.08</td>
-<td class="num land">$910.09</td></tr><tr><td class="k">Unclassified <span class="warn" title="Small sample">n=1</span></td><td class="num">1 / 4</td>
-<td class="num">$658.25</td><td class="num">$658.25</td>
-<td class="num">$658.25</td><td class="num">1.00</td>
-<td class="num land">$658.25</td></tr></tbody>
-  </table></div>
-  <p class="fine"><b>Cost to land one</b> = average cost per round × rounds typically needed,
-  i.e. the all-in cost of getting one program-language across the line.</p>
-  <h3>What it takes to finish 2026</h3>
-  <div class="scen">
-    <div class="sc">
-      <div class="sct">At current pace <span class="tag ok">likely</span></div>
-      <div class="scn">$13,382</div>
-      <p>You've launched <b>26</b> in 7.4 months — <b>3.5/month</b>.
-      Holding that for the remaining 4.6 months means about
-      <b>16 more tests</b>.</p>
-      <div class="scend">Year-end total <b>$35,139</b></div>
-    </div>
-    <div class="sc">
-      <div class="sct">If the whole plan ships <span class="tag hard">3.0× pace</span></div>
-      <div class="scn">$39,901</div>
-      <p>All <b>48</b> remaining projects would need
-      <b>11/month</b> — 3.0× your demonstrated throughput.
-      Treat as a ceiling, not a forecast.</p>
-      <div class="scend">Year-end total <b>$61,658</b></div>
-    </div>
-  </div>
-</section>
-
-<section class="ver">
-  <div class="vhead"><span class="badge">B</span><div>
-    <h2>Type = 'Test' + 'Other'</h2><p class="vsub">Everything drawing on the testing budget — including new-topic work filed as Other (the Cats/NAS series, WIIT Nowruz, UFS Urdu).</p></div></div>
-  <div class="cards">
-    <div class="kpi big"><div class="n">$44,880</div><div class="l">Spent YTD</div></div>
-    <div class="kpi"><div class="n">40</div><div class="l">Tests launched</div></div>
-    <div class="kpi"><div class="n">$1,122</div><div class="l">Avg per test</div></div>
-    <div class="kpi"><div class="n">87</div><div class="l">Still in the plan</div></div>
-  </div>
-  <h3>Unit economics — what a test costs</h3>
-  <div class="tw"><table>
-    <thead><tr><th>What's being tested</th><th class="num">Run / planned</th><th class="num">Spend</th>
-    <th class="num">Avg / round</th><th class="num">Median</th><th class="num">Rounds</th>
-    <th class="num">Cost to land one</th></tr></thead>
-    <tbody><tr><td class="k">New program</td><td class="num">15 / 44</td>
-<td class="num">$11,484.87</td><td class="num">$765.66</td>
-<td class="num">$594.06</td><td class="num">1.24</td>
-<td class="num land">$947.00</td></tr><tr><td class="k">New topic</td><td class="num">9 / 29</td>
-<td class="num">$18,094.46</td><td class="num">$2,010.50</td>
-<td class="num">$1,421.06</td><td class="num">2.00</td>
-<td class="num land">$4,020.99</td></tr><tr><td class="k">Localization</td><td class="num">14 / 35</td>
-<td class="num">$12,421.84</td><td class="num">$887.27</td>
-<td class="num">$996.05</td><td class="num">1.16</td>
-<td class="num land">$1,030.38</td></tr><tr><td class="k">Ad refresh <span class="warn" title="Small sample">n=1</span></td><td class="num">1 / 9</td>
-<td class="num">$2,220.82</td><td class="num">$2,220.82</td>
-<td class="num">$2,220.82</td><td class="num">1.60</td>
-<td class="num land">$3,553.31</td></tr><tr><td class="k">Unclassified <span class="warn" title="Small sample">n=1</span></td><td class="num">1 / 10</td>
-<td class="num">$658.25</td><td class="num">$658.25</td>
-<td class="num">$658.25</td><td class="num">1.00</td>
-<td class="num land">$658.25</td></tr></tbody>
-  </table></div>
-  <p class="fine"><b>Cost to land one</b> = average cost per round × rounds typically needed,
-  i.e. the all-in cost of getting one program-language across the line.</p>
-  <h3>What it takes to finish 2026</h3>
-  <div class="scen">
-    <div class="sc">
-      <div class="sct">At current pace <span class="tag ok">likely</span></div>
-      <div class="scn">$27,605</div>
-      <p>You've launched <b>40</b> in 7.4 months — <b>5.4/month</b>.
-      Holding that for the remaining 4.6 months means about
-      <b>25 more tests</b>.</p>
-      <div class="scend">Year-end total <b>$72,485</b></div>
-    </div>
-    <div class="sc">
-      <div class="sct">If the whole plan ships <span class="tag hard">3.5× pace</span></div>
-      <div class="scn">$104,738</div>
-      <p>All <b>87</b> remaining projects would need
-      <b>19/month</b> — 3.5× your demonstrated throughput.
-      Treat as a ceiling, not a forecast.</p>
-      <div class="scend">Year-end total <b>$149,618</b></div>
-    </div>
-  </div>
-</section>
-
-<h3>Reading this</h3>
-<div class="cav"><ul>
-<li><b>New topics are the expensive product.</b> ~$2,010 per round
-and <b>2.00 rounds</b> to land one — about <b>4×</b> the all-in cost of a localization
-($1,030). They only appear in Version B, because every
-new-topic test so far is filed as <i>Other</i>.</li>
-<li><b>Version A understates topic testing.</b> Version A shows no New-topic line at all — not because
-none ran, but because none are classified as <i>Test</i>. If topic tests are meant to be tests, Version B
-is the truer picture.</li>
-<li><b>The backlog will not clear at current pace.</b> Both versions would need roughly 3× the
-demonstrated launch rate to finish everything still on the plan. The realistic number is the
-left-hand scenario; the right-hand one is a ceiling.</li>
-<li><b>BigQuery restates history.</b> The same campaign over the same closed window can change between
-refreshes (one dropped 25% between July and August). Treat these as accurate to within a few percent,
-not to the dollar.</li>
-<li><b>Rounds are provisional.</b> Round counts come from repeat entries per program-language;
-tests still marked <i>Iterating</i> may add rounds and push the cost-to-land figures up.</li>
-</ul></div>
+<div class="cards">
+  <div class="kpi big"><div class="n">$22,900</div><div class="l">Spent on testing</div></div>
+  <div class="kpi"><div class="n">28<span class="of"> / 40</span></div><div class="l">Launched</div></div>
+  <div class="kpi"><div class="n">25.0%</div><div class="l">Success rate (launched)</div></div>
+  <div class="kpi hero"><div class="n">$3,271</div><div class="l">True cost per success</div></div>
 </div>
-<script>
-(function(){var r=document.documentElement,b=document.getElementById('themeBtn');
-var t=localStorage.getItem('tb-theme')||'light';
-function a(x){r.setAttribute('data-theme',x);b.textContent=x==='dark'?'☀︎ Light':'☾ Dark';}
-a(t);b.onclick=function(){t=r.getAttribute('data-theme')==='dark'?'light':'dark';
-localStorage.setItem('tb-theme',t);a(t);};})();
-</script></body></html>
+
+<h2>What happened to the 40 tests</h2>
+<div class="chart">
+  <svg viewBox="0 0 260 260" role="img" aria-label="Test results breakdown">
+    <path d="M 130.00 34.00 A 96 96 0 0 1 221.30 100.33" fill="none" stroke="#0a8f5b" stroke-width="34" stroke-linecap="butt"><title>Successful: 8 of 40 (20.0%)</title></path><path d="M 221.30 100.33 A 96 96 0 0 1 215.54 173.58" fill="none" stroke="#2563eb" stroke-width="34" stroke-linecap="butt"><title>Monitoring: 5 of 40 (12.5%)</title></path><path d="M 215.54 173.58 A 96 96 0 0 1 130.00 226.00" fill="none" stroke="#7c3aed" stroke-width="34" stroke-linecap="butt"><title>Iterating: 7 of 40 (17.5%)</title></path><path d="M 130.00 226.00 A 96 96 0 0 1 44.46 86.42" fill="none" stroke="#94a3b8" stroke-width="34" stroke-linecap="butt"><title>Active: 13 of 40 (32.5%)</title></path><path d="M 44.46 86.42 A 96 96 0 0 1 52.33 73.57" fill="none" stroke="#b7791f" stroke-width="34" stroke-linecap="butt"><title>Paused: 1 of 40 (2.5%)</title></path><path d="M 52.33 73.57 A 96 96 0 0 1 130.00 34.00" fill="none" stroke="#dc2626" stroke-width="34" stroke-linecap="butt"><title>Cancelled: 6 of 40 (15.0%)</title></path>
+    <text x="130" y="122" class="cn">40</text>
+    <text x="130" y="146" class="cl">approved tests</text>
+  </svg>
+  <ul class="legend">
+    <li class="hd"><span class="sw"></span><span class="ln">Result</span><span class="lc">n</span>
+    <span class="lp">share</span><span class="ls">spend</span><span class="lm">meaning</span></li>
+    <li><span class="sw" style="background:#0a8f5b"></span><span class="ln">Successful</span><span class="lc">8</span><span class="lp">20.0%</span><span class="ls">$6,161</span><span class="lm">Hit its goal</span></li><li><span class="sw" style="background:#2563eb"></span><span class="ln">Monitoring</span><span class="lc">5</span><span class="lp">12.5%</span><span class="ls">$4,120</span><span class="lm">Watching post-launch</span></li><li><span class="sw" style="background:#7c3aed"></span><span class="ln">Iterating</span><span class="lc">7</span><span class="lp">17.5%</span><span class="ls">$5,255</span><span class="lm">Still being reworked</span></li><li><span class="sw" style="background:#94a3b8"></span><span class="ln">Active</span><span class="lc">13</span><span class="lp">32.5%</span><span class="ls">$766</span><span class="lm">Running / not yet started</span></li><li><span class="sw" style="background:#b7791f"></span><span class="ln">Paused</span><span class="lc">1</span><span class="lp">2.5%</span><span class="ls">$515</span><span class="lm">On hold</span></li><li><span class="sw" style="background:#dc2626"></span><span class="ln">Cancelled</span><span class="lc">6</span><span class="lp">15.0%</span><span class="ls">$6,081</span><span class="lm">Stopped without a win</span></li>
+  </ul>
+</div>
+<p class="fine">A blank <b>Post-Launch Status</b> is counted as <b>Active</b> — 13 tests,
+of which 12 have not launched yet and the rest are still running.</p>
+
+<h2>Success rate — three ways to read it</h2>
+<div class="scen">
+  <div class="sc"><div class="sct">Of everything approved</div>
+    <div class="scn">20.0%</div>
+    <p>8 of 40 approved tests are marked Successful. The strictest
+    reading — it counts tests that have not run yet as not-yet-won.</p></div>
+  <div class="sc"><div class="sct">Of tests actually launched</div>
+    <div class="scn">25.0%</div>
+    <p>7 of 28 launched tests succeeded. The fairest
+    day-to-day number: it only judges tests that got a real chance.</p></div>
+  <div class="sc"><div class="sct">Of tests with a final verdict</div>
+    <div class="scn">57.1%</div>
+    <p>Successful vs Cancelled only, ignoring everything still open. Flattering, and it will drift as
+    the 7 Iterating and 5 Monitoring tests land.</p></div>
+</div>
+
+<h2>What a win costs</h2>
+<div class="scen">
+  <div class="sc"><div class="sct">Sticker price <span class="tag ok">per winning test</span></div>
+    <div class="scn">$880.19</div>
+    <p>Average spend on a test that ended up Successful. What one winning test costs to run —
+    but it ignores everything spent getting there.</p></div>
+  <div class="sc"><div class="sct">True cost <span class="tag hard">incl. the misses</span></div>
+    <div class="scn">$3,271.36</div>
+    <p>All $22,900 of testing spend divided by the 7
+    wins. This is the number to plan with — $6,081 of it went to
+    tests that were Cancelled.</p></div>
+</div>
+
+<h2>By project type <span class="mut">(Col AE)</span></h2>
+<div class="tw"><table>
+<thead><tr><th>Project type</th><th class="num">Launched / planned</th><th class="num">Spend</th>
+<th class="num">Avg</th><th class="num">Median</th><th class="num">Wins</th><th class="num">Success rate</th>
+<th class="num">Cost per success</th></tr></thead>
+<tbody><tr><td class="k">New Program</td><td class="num">14 / 25</td>
+<td class="num">$11,383.34</td><td class="num">$813.10</td><td class="num">$842.87</td>
+<td class="num">4 / 14</td><td class="num">28.6%</td>
+<td class="num land">$2,845.84</td></tr><tr><td class="k">Localization</td><td class="num">14 / 15</td>
+<td class="num">$11,516.18</td><td class="num">$822.58</td><td class="num">$912.53</td>
+<td class="num">3 / 14</td><td class="num">21.4%</td>
+<td class="num land">$3,838.73</td></tr></tbody></table></div>
+
+<h2>Reading this</h2>
+<div class="cav"><ul>
+<li><b>A win costs about $3,271, not $880.</b>
+A single winning test only burns $880.19, but you fund every test to get
+one — so plan against the true figure. The gap is what learning costs.</li>
+<li><b>New Programs convert better than Localizations</b>
+(28.6% vs 21.4%),
+and cost less per win ($2,846 vs
+$3,839) — despite near-identical spend per test.
+The two types cost the same to run; they do not pay back the same.</li>
+<li><b>$6,081 went to Cancelled tests</b>
+(26.6% of all spend). Killing weak tests
+sooner is the cheapest available saving.</li>
+<li><b>These rates will move.</b> 7 tests are Iterating and
+5 Monitoring — none have a final verdict yet. Success rate is a
+floor, not a settled figure.</li>
+</ul></div></div><script>(function(){var r=document.documentElement,b=document.getElementById("themeBtn");var t=localStorage.getItem("tb-theme")||"light";function a(x){r.setAttribute("data-theme",x);b.textContent=x==="dark"?"\u2600\ufe0e Light":"\u263e Dark";}a(t);b.onclick=function(){t=r.getAttribute("data-theme")==="dark"?"light":"dark";localStorage.setItem("tb-theme",t);a(t);};})();</script></body></html>
